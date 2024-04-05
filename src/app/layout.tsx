@@ -1,8 +1,14 @@
 import type { Metadata } from "next";
-import { Noto_Sans_Javanese } from "next/font/google";
+import { Inter } from 'next/font/google'
 import "./globals.css";
 
-const notoSans = Noto_Sans_Javanese({ subsets: ["latin"] });
+import { cn } from '@/lib/utils'
+
+const inter = Inter({
+  variable: '--font-inter',
+  subsets: ['latin'],
+  display: 'swap'
+})
 
 export const metadata: Metadata = {
   title: "檢查表"
@@ -15,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={notoSans.className}>{children}</body>
+      <body className={cn('h-screen overflow-hidden', inter.variable)}>{children}</body>
     </html>
   );
 }
