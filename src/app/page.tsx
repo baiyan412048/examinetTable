@@ -154,7 +154,7 @@ export default function Home() {
                 alert('請完整填寫巡檢表資訊')
                 return
               }
-              addNewTranslate(`${-100 / (main.length + 2)}%`)
+              addNewTranslate('-100dvh')
             }}>開始巡檢</Button>
           </div>
         </div>
@@ -221,14 +221,14 @@ export default function Home() {
             </div>
             <div className="text-center space-x-4">
               <Button className="font-bold" variant="outline" onClick={() => {
-                addNewTranslate(`${-100 / (main.length + 2) * (index)}%`)
+                addNewTranslate(`${-100 * index}dvh`)
               }}>上一步</Button>
               <Button className="font-bold" onClick={() => {
                 if (allState[item['編號']] === undefined) {
                   alert('請確認所有檢核項目')
                   return
                 }
-                addNewTranslate(`${-100 / (main.length + 2) * (index + 2)}%`)
+                addNewTranslate(`${-100 * (index + 1)}dvh`)
               }}>下一步</Button>
             </div>
           </section>
@@ -258,9 +258,18 @@ export default function Home() {
           }</div>
           <div className="text-center space-x-4">
             <Button className="font-bold" variant="outline" onClick={() => {
-              addNewTranslate(`${-100 / (main.length + 2) * (main.length)}%`)
+              addNewTranslate(`${-100 * main.length}dvh`)
             }}>上一步</Button>
             <Button className="font-bold" onClick={() => {
+              fetch('http://localhost:3000/api/test', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  report: Object.values(allState)
+                })
+              })
               addNewTranslate('0')
               setAllState({})
               addToTableInfo({})
