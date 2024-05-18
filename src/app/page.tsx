@@ -17,9 +17,13 @@ import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio"
 import { Textarea } from "@/components/ui/textarea"
+import { useTranslateStore, useTableInfoStore } from '@/lib/zustand'
 
 
 export default function Home() {
+  const { translate, addNewTranslate } = useTranslateStore()
+  const { tableInfo, addToTableInfo } = useTableInfoStore()
+
   const [allState, setAllState] = useState<{
     [key: string]: {
       title: string
@@ -40,17 +44,12 @@ export default function Home() {
     }))
   }
 
-  const [tableInfo, setTableInfo] = useState<{
-    [key: string]: string | undefined
-  }>({})
   const addKeyToTableInfo = (key: string, value: string) => {
-    setTableInfo((prevState) => ({
-      ...prevState,
+    addToTableInfo({
+      ...tableInfo,
       [key]: value
-    }))
+    })
   }
-
-  const [translate, setTranslate] = useState<string>('0')
 
   const [main, setMain] = useState<{
     '編號': string
@@ -69,8 +68,8 @@ export default function Home() {
   }[]>([])
 
   const { data, loading, error } = useGoogleSheets({
-    apiKey: process.env.GOOGLE_API_KEY ?? '',
-    sheetId: process.env.GOOGLE_SHEET_ID ?? '',
+    apiKey: process.env.GOOGLE_API_KEY ?? 'AIzaSyCWxiZMVqH1h94h73QL4evSRFvKFnv15mU',
+    sheetId: process.env.GOOGLE_SHEET_ID ?? '1EOQ3luyQvq38F4bJYWpUiDeUr8JPbmUxlKwosPsWOeE',
   });
 
   useEffect(() => {
@@ -129,7 +128,7 @@ export default function Home() {
         <div className="mx-auto w-full max-w-[400px] space-y-6">
           <div>
             <div className="mb-2 text-2xl font-bold">選擇分店</div>
-            <Select onValueChange={(value) => addKeyToTableInfo('分店', value)}>
+            <Select value={tableInfo['分店']} onValueChange={(value) => addKeyToTableInfo('分店', value)}>
               <SelectTrigger>
                 <SelectValue placeholder="選擇分店" />
               </SelectTrigger>
@@ -143,20 +142,19 @@ export default function Home() {
           </div>
           <div>
             <div className="mb-2 text-2xl font-bold">包廂號碼</div>
-            <Input onInput={(event) => addKeyToTableInfo('包廂號碼', (event.target as HTMLInputElement).value)} type="text" inputMode="numeric" placeholder="包廂號碼" />
+            <Input value={tableInfo['包廂號碼']} onInput={(event) => addKeyToTableInfo('包廂號碼', (event.target as HTMLInputElement).value)} type="text" inputMode="numeric" placeholder="包廂號碼" />
           </div>
           <div>
             <div className="mb-2 text-2xl font-bold">巡包人</div>
-            <Input onInput={(event) => addKeyToTableInfo('巡包人', (event.target as HTMLInputElement).value)} type="text" placeholder="巡包人" />
+            <Input value={tableInfo['巡包人']} onInput={(event) => addKeyToTableInfo('巡包人', (event.target as HTMLInputElement).value)} type="text" placeholder="巡包人" />
           </div>
           <div className="text-center">
             <Button className="font-bold" onClick={() => {
-              console.log(tableInfo, 'tableInfo')
-              // if (!tableInfo['分店'] || !tableInfo['包廂號碼'] || !tableInfo['巡包人']) {
-              //   alert('請完整填寫巡檢表資訊')
-              //   return
-              // }
-              setTranslate(`${-100 / (main.length + 2)}%`)
+              if (!tableInfo['分店'] || !tableInfo['包廂號碼'] || !tableInfo['巡包人']) {
+                alert('請完整填寫巡檢表資訊')
+                return
+              }
+              addNewTranslate(`${-100 / (main.length + 2)}%`)
             }}>開始巡檢</Button>
           </div>
         </div>
@@ -223,14 +221,14 @@ export default function Home() {
             </div>
             <div className="text-center space-x-4">
               <Button className="font-bold" variant="outline" onClick={() => {
-                setTranslate(`${-100 / (main.length + 2) * (index)}%`)
+                addNewTranslate(`${-100 / (main.length + 2) * (index)}%`)
               }}>上一步</Button>
               <Button className="font-bold" onClick={() => {
                 if (allState[item['編號']] === undefined) {
                   alert('請確認所有檢核項目')
                   return
                 }
-                setTranslate(`${-100 / (main.length + 2) * (index + 2)}%`)
+                addNewTranslate(`${-100 / (main.length + 2) * (index + 2)}%`)
               }}>下一步</Button>
             </div>
           </section>
@@ -260,11 +258,12 @@ export default function Home() {
           }</div>
           <div className="text-center space-x-4">
             <Button className="font-bold" variant="outline" onClick={() => {
-              setTranslate(`${-100 / (main.length + 2) * (main.length)}%`)
+              addNewTranslate(`${-100 / (main.length + 2) * (main.length)}%`)
             }}>上一步</Button>
             <Button className="font-bold" onClick={() => {
-              setTranslate('0')
+              addNewTranslate('0')
               setAllState({})
+              addToTableInfo({})
             }}>送出表單</Button>
           </div>
         </div>
