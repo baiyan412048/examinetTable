@@ -142,11 +142,11 @@ export default function Home() {
           </div>
           <div>
             <div className="mb-2 text-2xl font-bold">包廂號碼</div>
-            <Input value={tableInfo['包廂號碼']} onInput={(event) => addKeyToTableInfo('包廂號碼', (event.target as HTMLInputElement).value)} type="text" inputMode="numeric" placeholder="包廂號碼" />
+            <Input value={tableInfo['包廂號碼']} onBlur={() => window.scrollTo(0, 0)} onInput={(event) => addKeyToTableInfo('包廂號碼', (event.target as HTMLInputElement).value)} type="text" inputMode="numeric" placeholder="包廂號碼" />
           </div>
           <div>
             <div className="mb-2 text-2xl font-bold">巡包人</div>
-            <Input value={tableInfo['巡包人']} onInput={(event) => addKeyToTableInfo('巡包人', (event.target as HTMLInputElement).value)} type="text" placeholder="巡包人" />
+            <Input value={tableInfo['巡包人']} onBlur={() => window.scrollTo(0, 0)} onInput={(event) => addKeyToTableInfo('巡包人', (event.target as HTMLInputElement).value)} type="text" placeholder="巡包人" />
           </div>
           <div className="text-center">
             <Button className="font-bold" onClick={() => {
@@ -228,7 +228,7 @@ export default function Home() {
                   alert('請確認所有檢核項目')
                   return
                 }
-                addNewTranslate(`${-100 * (index + 1)}dvh`)
+                addNewTranslate(`${-100 * (index + 2)}dvh`)
               }}>下一步</Button>
             </div>
           </section>
