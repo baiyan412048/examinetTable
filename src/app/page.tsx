@@ -119,8 +119,8 @@ export default function Home() {
   }, []);
 
   return (
-    loading ? <div>LOADING</div> : error ? <div>{JSON.stringify(error)}</div> : <main className="min-h-screen flex flex-col" style={ {'transform': `translate3d(0, ${translate}, 0)`} }>
-      <section className="flex flex-col items-center justify-center h-screen p-6">
+    loading ? <div>LOADING</div> : error ? <div>{JSON.stringify(error)}</div> : <main className="min-h-dvh flex flex-col" style={ {'transform': `translate3d(0, ${translate}, 0)`} }>
+      <section className="flex flex-col items-center justify-center h-dvh p-6">
         <div className="mb-20 text-center font-bold">
           <p className="mb-4 text-5xl">故鄉 KTV 巡檢表</p>
           <p className="text-3xl">每日巡檢</p>
@@ -161,7 +161,7 @@ export default function Home() {
       </section>
       {
         main.map((item, index) => (
-          <section key={item['編號']} className="flex flex-col items-center justify-center p-6 h-screen">
+          <section key={item['編號']} className="flex flex-col items-center justify-center p-6 h-dvh">
             <div className="mb-10 text-center font-bold">
               <p className="text-3xl">{item['問題名稱']}</p>
             </div>
@@ -234,12 +234,12 @@ export default function Home() {
           </section>
         ))
       }
-      <section className="flex flex-col items-center justify-center h-screen p-6">
+      <section className="flex flex-col items-center justify-center h-dvh p-6">
         <div className="mx-auto w-full max-w-[400px]">
           <div className="mb-10 text-center font-bold">
             <p className="text-3xl">確認巡檢內容</p>
           </div>
-          <div className='text-xl border border-current-300 rounded mb-20 h-[40vh] overflow-auto'>{
+          <div className='text-xl border border-current-300 rounded mb-20 h-[40dvh] overflow-auto'>{
             Object.values(allState).map((item) => {
               return (
                 <div className='p-3 border-b border-current-300 last:border-none' key={item.title}>
