@@ -188,7 +188,7 @@ export default function Home() {
                   </Label>
                 </RadioGroup>
                 {
-                  item['異常問題細項'].length && <div className="mt-6 space-y-4">
+                  (item['異常問題細項'].length && (allState[item['編號']]?.state !== undefined ? !allState[item['編號']].state : false)) && <div className="mt-6 space-y-4">
                     <p className='text-xl'>異常問題 :</p>
                     {
                       sub.filter((tempSub) => item['異常問題細項'].includes(tempSub['編號'])).map((tempSub, index) => (
