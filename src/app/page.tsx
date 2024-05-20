@@ -261,15 +261,6 @@ export default function Home() {
               addNewTranslate(`${-100 * main.length}dvh`)
             }}>上一步</Button>
             <Button className="font-bold" onClick={() => {
-              fetch('http://localhost:3000/api/test', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                  report: Object.values(allState)
-                })
-              })
               addNewTranslate('0')
               setAllState({})
               addToTableInfo({})
